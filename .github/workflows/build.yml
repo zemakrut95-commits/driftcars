@@ -1,0 +1,28 @@
+name: Build Plugin
+
+on:
+  push:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Скачиваем код из репозитория
+        uses: actions/checkout@v4
+
+      - name: Устанавливаем Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Собираем плагин через Maven
+        run: mvn clean package
+
+      - name: Сохраняем готовый .jar файл
+        uses: actions/upload-artifact@v4
+        with:
+          name: DriftCars-Plugin
+          path: target/DriftCars-1.0.0.jar
